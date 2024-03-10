@@ -1,21 +1,20 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { Button, Colors, Fonts, Gaps, Paddings } from "./shared";
 
 export default function App() {
   return (
     <SafeAreaView style={Styles.screen}>
       <StatusBar style="light" />
       <View style={Styles.container}>
-        <View style={Styles.info}>
+        <View>
           <Text style={Styles.title}>Одно из самых вкусных кофе в городе!</Text>
           <Text style={Styles.text}>
             Свежие зёрна, настоящая арабика и бережная обжарка
           </Text>
         </View>
-        <Pressable style={Styles.button}>
-          <Text style={Styles.buttonText}>Начать</Text>
-        </Pressable>
+        <Button text="Начать" />
       </View>
     </SafeAreaView>
   );
@@ -24,45 +23,29 @@ export default function App() {
 const Styles = StyleSheet.create({
   screen: {
     flex: 1,
-    backgroundColor: "#000000",
+    backgroundColor: Colors.black,
   },
   container: {
     flex: 1,
     justifyContent: "flex-end",
-    paddingHorizontal: 30,
-    paddingBottom: 42,
-    gap: 24,
-  },
-  info: {
-    gap: 8,
+    paddingHorizontal: Paddings.p30,
+    paddingBottom: Paddings.p42,
+    gap: Gaps.g24,
   },
   title: {
     // fontFamily: 'Sora',
-    fontSize: 34,
+    fontSize: Fonts.f34,
     fontWeight: "600",
     lineHeight: 43,
     textAlign: "center",
-    color: "#FFFFFF",
+    color: Colors.white,
   },
   text: {
+    marginTop: 8,
     // fontFamily: 'Sora',
-    fontSize: 14,
+    fontSize: Fonts.f14,
     lineHeight: 22,
     textAlign: "center",
-    color: "#A9A9A9",
-  },
-  button: {
-    justifyContent: "center",
-    alignItems: "center",
-    paddingVertical: 21,
-    borderRadius: 16,
-    backgroundColor: "#C67C4E",
-  },
-  buttonText: {
-    // fontFamily: "Sora",
-    fontSize: 16,
-    fontWeight: "600",
-    lineHeight: 20,
-    color: "#FFFFFF",
+    color: Colors.lightGray,
   },
 });
