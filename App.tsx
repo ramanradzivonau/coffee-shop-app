@@ -1,21 +1,37 @@
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import {
+  ImageBackground,
+  StyleSheet,
+  Dimensions,
+  Text,
+  View,
+} from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Button, Colors, Fonts, Gaps, Paddings } from "./shared";
 
+const windowWidth = Dimensions.get("window").width;
+
 export default function App() {
   return (
     <SafeAreaView style={Styles.screen}>
-      <StatusBar style="light" />
-      <View style={Styles.container}>
-        <View>
-          <Text style={Styles.title}>Одно из самых вкусных кофе в городе!</Text>
-          <Text style={Styles.text}>
-            Свежие зёрна, настоящая арабика и бережная обжарка
-          </Text>
+      <ImageBackground
+        source={require("./assets/StartScreen/backgroundImage.jpg")}
+        imageStyle={Styles.backgroundImage}
+        resizeMode="contain"
+      >
+        <StatusBar style="light" />
+        <View style={Styles.container}>
+          <View>
+            <Text style={Styles.title}>
+              Одно из самых вкусных кофе в городе!
+            </Text>
+            <Text style={Styles.text}>
+              Свежие зёрна, настоящая арабика и бережная обжарка
+            </Text>
+          </View>
+          <Button text="Начать" />
         </View>
-        <Button text="Начать" />
-      </View>
+      </ImageBackground>
     </SafeAreaView>
   );
 }
@@ -24,6 +40,13 @@ const Styles = StyleSheet.create({
   screen: {
     flex: 1,
     backgroundColor: Colors.black,
+    alignItems: "center",
+  },
+  backgroundImage: {
+    position: "absolute",
+    bottom: 276,
+    left: -windowWidth * 0.125,
+    width: windowWidth * 1.25,
   },
   container: {
     flex: 1,
