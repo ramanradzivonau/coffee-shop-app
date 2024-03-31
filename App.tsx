@@ -4,33 +4,74 @@ import {
   Dimensions,
   Text,
   View,
+  SafeAreaView,
+  Animated,
 } from "react-native";
 import { StatusBar } from "expo-status-bar";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { LinearGradient } from "expo-linear-gradient";
 import { Button, Colors, Fonts, Gaps, Paddings } from "./shared";
 
 const windowWidth = Dimensions.get("window").width;
 
 export default function App() {
+  const animatedYPosition = new Animated.Value(-74);
+  const animatedOpacityValue = new Animated.Value(0);
+
+  const animateTitlePosition = () => {
+    Animated.timing(animatedYPosition, {
+      toValue: 0,
+      duration: 1000,
+      useNativeDriver: true,
+    }).start();
+  };
+
+  const animateTitleOpacity = () => {
+    Animated.timing(animatedOpacityValue, {
+      toValue: 1,
+      duration: 1000,
+      useNativeDriver: true,
+    }).start();
+  };
+
+  const animateTitle = () => {
+    animateTitlePosition();
+    animateTitleOpacity();
+  };
+
   return (
     <SafeAreaView style={Styles.screen}>
+      <StatusBar style="light" />
       <ImageBackground
         source={require("./assets/StartScreen/backgroundImage.jpg")}
+        style={{ overflow: "visible" }}
         imageStyle={Styles.backgroundImage}
-        resizeMode="contain"
+        resizeMode="cover"
       >
-        <StatusBar style="light" />
-        <View style={Styles.container}>
+        <LinearGradient
+          style={Styles.container}
+          colors={["rgba(0, 0, 0, 0)", Colors.black]}
+          start={{ x: 0, y: 0.5 }}
+          end={{ x: 0, y: 0.65 }}
+        >
           <View>
-            <Text style={Styles.title}>
+            <Animated.Text
+              onLayout={animateTitle}
+              style={[
+                Styles.title,
+                {
+                  transform: [{ translateY: animatedYPosition }],
+                  opacity: animatedOpacityValue,
+                },
+              ]}
+            >
               Одно из самых вкусных кофе в городе!
-            </Text>
+            </Animated.Text>
             <Text style={Styles.text}>
               Свежие зёрна, настоящая арабика и бережная обжарка
             </Text>
           </View>
           <Button text="Начать" />
-        </View>
+        </LinearGradient>
       </ImageBackground>
     </SafeAreaView>
   );
@@ -51,12 +92,14 @@ const Styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "flex-end",
+    width: windowWidth,
     paddingHorizontal: Paddings.p30,
-    paddingBottom: Paddings.p42,
+    paddingBottom: Paddings.p42 - Gaps.g24,
     gap: Gaps.g24,
   },
   title: {
     // fontFamily: 'Sora',
+    //TODO: add fonts
     fontSize: Fonts.f34,
     fontWeight: "600",
     lineHeight: 43,
@@ -66,6 +109,7 @@ const Styles = StyleSheet.create({
   text: {
     marginTop: 8,
     // fontFamily: 'Sora',
+    //TODO: add fonts
     fontSize: Fonts.f14,
     lineHeight: 22,
     textAlign: "center",
