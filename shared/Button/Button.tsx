@@ -1,32 +1,68 @@
-import { FC } from "react";
-import { Pressable, PressableProps, Text, StyleSheet } from "react-native";
-import { Colors, Fonts, Radius } from "../tokens";
+import { FC } from 'react';
+import {
+	Pressable,
+	PressableProps,
+	Text,
+	StyleSheet,
+	Animated,
+	GestureResponderEvent,
+} from 'react-native';
+import { Colors, Fonts, FontsFamily, Radius } from '../tokens';
 
 interface ButtonProps extends PressableProps {
-  text: string;
+	text: string;
 }
 
 export const Button: FC<ButtonProps> = ({ text, ...props }) => {
-  return (
-    <Pressable style={Styles.button} {...props}>
-      <Text style={Styles.buttonText}>{text}</Text>
-    </Pressable>
-  );
+	const animatedValue = new Animated.Value(100);
+	const backgroundColor = animatedValue.interpolate({
+		inputRange: [0, 100],
+		outputRange: [Colors.primaryHover, Colors.primary],
+	});
+
+	const fadeIn = (e: GestureResponderEvent) => {
+		Animated.timing(animatedValue, {
+			toValue: 0,
+			duration: 100,
+			useNativeDriver: true,
+		}).start();
+		props.onPressIn && props.onPressIn(e);
+	};
+
+	const fadeOut = (e: GestureResponderEvent) => {
+		Animated.timing(animatedValue, {
+			toValue: 100,
+			duration: 100,
+			useNativeDriver: true,
+		}).start();
+		props.onPressOut && props.onPressOut(e);
+	};
+
+	return (
+		<Pressable style={Styles.buttonWrap} onPressIn={fadeIn} onPressOut={fadeOut} {...props}>
+			<Animated.View style={[Styles.button, { backgroundColor }]}>
+				<Text style={Styles.buttonText}>{text}</Text>
+			</Animated.View>
+		</Pressable>
+	);
 };
 
 const Styles = StyleSheet.create({
-  button: {
-    justifyContent: "center",
-    alignItems: "center",
-    paddingVertical: 21,
-    borderRadius: Radius.r16,
-    backgroundColor: Colors.primary,
-  },
-  buttonText: {
-    // fontFamily: "Sora",
-    fontSize: Fonts.f16,
-    fontWeight: "600",
-    lineHeight: 20,
-    color: Colors.white,
-  },
+	buttonWrap: {
+		backgroundColor: Colors.primary,
+		borderRadius: Radius.r16,
+		overflow: 'hidden',
+	},
+	button: {
+		justifyContent: 'center',
+		alignItems: 'center',
+		paddingVertical: 21,
+	},
+	buttonText: {
+		fontFamily: FontsFamily.semibold,
+		fontSize: Fonts.f16,
+		fontWeight: '600',
+		lineHeight: 20,
+		color: Colors.white,
+	},
 });
