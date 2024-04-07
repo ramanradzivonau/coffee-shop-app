@@ -20,6 +20,11 @@ export const Fonts = {
 	f34: 34,
 };
 
+export const FontsFamily = {
+	regular: 'Sora',
+	semibold: 'SoraSemiBold',
+};
+
 export const Paddings = {
 	p30: 30,
 	p42: 42,

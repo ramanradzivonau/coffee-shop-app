@@ -1,2 +1,2 @@
 export { Button } from './Button/Button';
-export { Colors, Fonts, Gaps, Paddings, Radius } from './tokens';
+export { Colors, Fonts, FontsFamily, Gaps, Paddings, Radius } from './tokens';

@@ -9,11 +9,12 @@ import {
 } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Button, Colors, Fonts, Gaps, Paddings } from './shared';
+import { Button, Colors, Fonts, FontsFamily, Gaps, Paddings } from '../shared';
+import { router } from 'expo-router';
 
 const windowWidth = Dimensions.get('window').width;
 
-export default function App() {
+const StartScreen = () => {
 	const animatedYPosition = new Animated.Value(-74);
 	const animatedOpacityValue = new Animated.Value(0);
 
@@ -42,44 +43,58 @@ export default function App() {
 		<SafeAreaView style={Styles.screen}>
 			<StatusBar style="light" />
 			<ImageBackground
-				source={require('./assets/StartScreen/backgroundImage.jpg')}
-				style={{ overflow: 'visible' }}
+				source={require('../assets/StartScreen/backgroundImage.jpg')}
+				style={Styles.image}
 				imageStyle={Styles.backgroundImage}
 				resizeMode="cover"
 			>
 				<LinearGradient
-					style={Styles.container}
-					colors={['rgba(0, 0, 0, 0)', Colors.black]}
-					start={{ x: 0, y: 0.5 }}
-					end={{ x: 0, y: 0.65 }}
+					style={Styles.topLinearGradient}
+					colors={[Colors.black, 'rgba(0, 0, 0, 0)']}
+					start={{ x: 0, y: 0 }}
+					end={{ x: 0, y: 0.15 }}
 				>
-					<View>
-						<Animated.Text
-							onLayout={animateTitle}
-							style={[
-								Styles.title,
-								{
-									transform: [{ translateY: animatedYPosition }],
-									opacity: animatedOpacityValue,
-								},
-							]}
-						>
-							Одно из самых вкусных кофе в городе!
-						</Animated.Text>
-						<Text style={Styles.text}>Свежие зёрна, настоящая арабика и бережная обжарка</Text>
-					</View>
-					<Button text="Начать" />
+					<LinearGradient
+						style={Styles.container}
+						colors={['rgba(0, 0, 0, 0)', Colors.black]}
+						start={{ x: 0, y: 0.55 }}
+						end={{ x: 0, y: 0.7 }}
+					>
+						<View>
+							<Animated.Text
+								onLayout={animateTitle}
+								style={[
+									Styles.title,
+									{
+										transform: [{ translateY: animatedYPosition }],
+										opacity: animatedOpacityValue,
+									},
+								]}
+							>
+								Одно из самых вкусных кофе в городе!
+							</Animated.Text>
+							<Text style={Styles.text}>Свежие зёрна, настоящая арабика и бережная обжарка</Text>
+						</View>
+						<Button
+							text="Начать"
+							onPress={() => {
+								router.navigate('/catalog');
+							}}
+						/>
+					</LinearGradient>
 				</LinearGradient>
 			</ImageBackground>
 		</SafeAreaView>
 	);
-}
+};
+
+export default StartScreen;
 
 const Styles = StyleSheet.create({
 	screen: {
 		flex: 1,
-		backgroundColor: Colors.black,
 		alignItems: 'center',
+		backgroundColor: Colors.black,
 	},
 	backgroundImage: {
 		position: 'absolute',
@@ -87,17 +102,22 @@ const Styles = StyleSheet.create({
 		left: -windowWidth * 0.125,
 		width: windowWidth * 1.25,
 	},
+	topLinearGradient: {
+		flex: 1,
+		width: windowWidth,
+	},
 	container: {
 		flex: 1,
 		justifyContent: 'flex-end',
-		width: windowWidth,
 		paddingHorizontal: Paddings.p30,
 		paddingBottom: Paddings.p42 - Gaps.g24,
 		gap: Gaps.g24,
 	},
+	image: {
+		overflow: 'visible',
+	},
 	title: {
-		// fontFamily: 'Sora',
-		//TODO: add fonts
+		fontFamily: FontsFamily.semibold,
 		fontSize: Fonts.f34,
 		fontWeight: '600',
 		lineHeight: 43,
@@ -106,8 +126,7 @@ const Styles = StyleSheet.create({
 	},
 	text: {
 		marginTop: 8,
-		// fontFamily: 'Sora',
-		//TODO: add fonts
+		fontFamily: FontsFamily.regular,
 		fontSize: Fonts.f14,
 		lineHeight: 22,
 		textAlign: 'center',

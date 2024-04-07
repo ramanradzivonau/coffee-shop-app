@@ -7,7 +7,7 @@ import {
 	Animated,
 	GestureResponderEvent,
 } from 'react-native';
-import { Colors, Fonts, Radius } from '../tokens';
+import { Colors, Fonts, FontsFamily, Radius } from '../tokens';
 
 interface ButtonProps extends PressableProps {
 	text: string;
@@ -59,8 +59,7 @@ const Styles = StyleSheet.create({
 		paddingVertical: 21,
 	},
 	buttonText: {
-		// fontFamily: "Sora",
-		//TODO: add fonts
+		fontFamily: FontsFamily.semibold,
 		fontSize: Fonts.f16,
 		fontWeight: '600',
 		lineHeight: 20,
